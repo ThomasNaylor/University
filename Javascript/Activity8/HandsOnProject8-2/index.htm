@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <!--
+      JavaScript 6th Edition
+      Chapter 8
+      Hands-on Project 8-2
+
+      Author: Thomas Naylor
+      Date:   
+
+      Filename: index.htm
+   -->
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <title>Hands-on Project 8-2</title>
+   <link rel="stylesheet" href="styles.css" />
+   <script src="modernizr.custom.65897.js"></script>
+</head>
+
+<body>
+   <header>
+      <h1>
+         Hands-on Project 8-2
+      </h1>
+   </header>
+
+   <article>
+      <h2>New Account Information</h2>
+      <form>
+         <fieldset id="deliveryinfo">
+            <label for="fnameinput">First Name</label>
+            <input type="text" id="fnameinput" name="fname" />
+            <label for="lnameinput">Last Name</label>
+            <input type="text" id="lnameinput" name="lname" />
+            <label for="addrinput">Street Address</label>
+            <input type="text" id="addrinput" name="address" />
+            <label for="cityinput">City</label>
+            <input type="text" id="cityinput" name="city" />
+            <label for="emailinput">State</label>
+            <input type="text" id="stateinput" name="state" />
+            <label for="phoneinput">Zip</label>
+            <input type="text" id="zipinput" name="zip" />
+            <label for="accountid">Account ID</label>
+            <input type="text" id="accountidbox" name="accountid" />
+         </fieldset>
+         <fieldset id="submitbutton">
+            <input type="submit" id="submitBtn" value="Create Account" />
+         </fieldset>
+      </form>
+   </article>
+<script>
+"use strict";
+
+// var newAccountArray = [];
+var newAccountObject = {};
+var newAccountSubmission;
+
+function createID()
+{
+	var fname = document.getElementById("fnameinput");
+	var lname = document.getElementById("lnameinput");
+	var zip = document.getElementById("zipinput");
+	var account = document.getElementById("accountidbox");
+	var fields = document.getElementsByTagName("input");
+	var acctid;
+	var firstInit;
+	var lastInit;
+	
+	if(fname && lname && zip !== "")
+	{
+		firstInit = fname.value.charAt(0).toUpperCase();
+		lastInit = lname.value.charAt(0).toUpperCase();
+		acctid = firstInit + lastInit + zip.value;
+		account.value = acctid;
+		// newAccountArray = [];
+		newAccountObject = {};
+		
+		for (var i = 0; i < fields.length - 1; i++)
+		{
+			// newAccountArray.push(fields[i].value);
+			newAccountObject[fields[i].name] = fields[i].value;
+		}
+	}
+}
+
+function createString()
+{
+	newAccountSubmission = JSON.stringify(newAccountObject);
+}
+
+function createEventListeners()
+{
+	var fname = document.getElementById("fnameinput");
+	var lname = document.getElementById("lnameinput");
+	var zip = document.getElementById("zipinput");
+	
+	if(fname.addEventListener)
+	{
+		fname.addEventListener("change", createID, false);
+		lname.addEventListener("change", createID, false);
+		zip.addEventListener("change", createID, false);
+	}
+	else if(fname.attachEvent)
+	{
+		fname.attachEvent("onchange", createID);
+		lname.attachEvent("onchange", createID);
+		zip.attachEvent("onchange", createID);
+	}
+	
+	var button = document.getElementById("submitBtn");
+	if(button.addEventListener)
+	{
+		button.addEventListener("click", createString, false);
+	}
+	else if(button.attachEvent)
+	{
+		button.attachEvent("onclick", createString);
+	}
+}
+
+if(window.addEventListener)
+{
+	window.addEventListener("load", createEventListeners, false);
+}
+else if(window.attachEvent)
+{
+	window.attachEvent("onload", createEventListeners);
+}
+</script>
+</body>
+</html>
